@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class listController {
         log.info("GET /lists");
         List<TodoList> lists = service.findByAll();
         model.addAttribute("lists", lists);
+        model.addAttribute("edit", false);
 
         return "pages/mainPage";
     }
@@ -56,10 +58,17 @@ public class listController {
     }
 
     @PutMapping("/lists/{listId}")
-    public String putList(@PathVariable Long listId, @ModelAttribute TodoListDto listDto) {
+    public String putList(@PathVariable Long listId,
+                          @ModelAttribute TodoListDto listDto,
+                          @RequestParam Boolean edit,
+                          RedirectAttributes redirectAttributes) {
         log.info("PUT /lists/{}", listId);
+        log.info("[PUT][list.content]:[{}]", listDto.getContent());
+        log.info("[PUT][list.completion]:[{}]", listDto.getCompletion());
+        log.info("[PUT][edit]:[{}]", edit);
         service.modifyOfList(listId, listDto);
 
+        redirectAttributes.addAttribute("edit", edit);
         return "redirect:/lists";
     }
 
