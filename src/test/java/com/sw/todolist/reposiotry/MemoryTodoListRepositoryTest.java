@@ -1,30 +1,37 @@
 package com.sw.todolist.reposiotry;
 
 import com.sw.todolist.domain.TodoList;
+import com.sw.todolist.reposiotry.list.TodoListDto;
+import com.sw.todolist.reposiotry.list.TodoListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
+@SpringBootTest
+@Transactional
 class MemoryTodoListRepositoryTest {
 
-    TodoListRepository repository = new MemoryTodoListRepository();
+    @Autowired
+    TodoListRepository repository;
 
-    @BeforeEach
+    /*@BeforeEach
     void before() {
         if (repository instanceof MemoryTodoListRepository) {
             ((MemoryTodoListRepository) repository).clear();
         }
-    }
+    }*/
 
     @Test
     void create() {
         // 저장
-        TodoList newList = new TodoList(1L, "운동하기", false);
+        TodoList newList = new TodoList(1L, "hong","운동하기", false);
         repository.create(newList);
 
         // 저장된 값 꺼내기
@@ -36,7 +43,7 @@ class MemoryTodoListRepositoryTest {
 
     @Test
     void update() {
-        TodoList newList = new TodoList(1L, "운동하기", false);
+        TodoList newList = new TodoList(1L, "hong", "운동하기", false);
         repository.create(newList);
 
         // 수정 내용
@@ -45,7 +52,7 @@ class MemoryTodoListRepositoryTest {
 
         // 수정
         log.info("updateContent={}", updateContent);
-        repository.update(1L, new TodoListDto(updateContent, completion));
+        repository.update(1L, new TodoListDto("hong", updateContent, completion));
 
         // 수정 되었는지 검증
         Optional<TodoList> readList = repository.read(1L);
@@ -57,7 +64,7 @@ class MemoryTodoListRepositoryTest {
 
     @Test
     void findById() {
-        TodoList listA = new TodoList(1L, "운동하기", false);
+        TodoList listA = new TodoList(1L, "hong", "운동하기", false);
 
         repository.create(listA);
         Optional<TodoList> findList = repository.read(1L);
@@ -67,7 +74,7 @@ class MemoryTodoListRepositoryTest {
 
     @Test
     void delete() {
-        TodoList listA = new TodoList(1L, "운동하기", true);
+        TodoList listA = new TodoList(1L, "hong", "운동하기", true);
         repository.create(listA);
 
         // 삭제
@@ -80,13 +87,13 @@ class MemoryTodoListRepositoryTest {
 
     @Test
     void findAll() {
-        TodoList listA = new TodoList(1L, "운동하기", false);
-        TodoList listB = new TodoList(1L, "헬스 하기", true);
+        TodoList listA = new TodoList(1L, "hong", "운동하기", false);
+        TodoList listB = new TodoList(1L, "hong", "헬스 하기", true);
 
         repository.create(listA);
         repository.create(listB);
 
-        List<TodoList> lists = repository.readOfListAll();
+        List<TodoList> lists = repository.readOfListAll("hong");
         Assertions.assertThat(lists).containsExactly(listA, listB);
     }
 }

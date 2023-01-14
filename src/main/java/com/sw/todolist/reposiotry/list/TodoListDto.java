@@ -1,22 +1,29 @@
-package com.sw.todolist.domain;
+package com.sw.todolist.reposiotry.list;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Setter
 @Getter
-public class TodoList {
-    private Long id;
+public class TodoListDto {
+
+    @NotBlank
     private String userId;
+
+    @NotBlank
     private String content;
+
+    @NotNull
     private Boolean completion;
 
-    public TodoList() {
+    public TodoListDto() {
     }
 
-    public TodoList(Long id, String userId, String content, Boolean completion) {
-        this.id = id;
+    public TodoListDto(String userId, String content, Boolean completion) {
         this.userId = userId;
         this.content = content;
         this.completion = completion;

@@ -1,8 +1,8 @@
 package com.sw.todolist.service;
 
 import com.sw.todolist.domain.TodoList;
-import com.sw.todolist.reposiotry.TodoListDto;
-import com.sw.todolist.reposiotry.TodoListRepository;
+import com.sw.todolist.reposiotry.list.TodoListDto;
+import com.sw.todolist.reposiotry.list.TodoListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +31,8 @@ public class TodoListServiceImpl implements TodoListService{
     }
 
     @Override
-    public List<TodoList> findByAll() {
-        return repository.readOfListAll();
+    public List<TodoList> findByAll(String userId) {
+        return repository.readOfListAll(userId);
     }
 
     @Override

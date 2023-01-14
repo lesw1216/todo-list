@@ -1,14 +1,14 @@
-package com.sw.todolist.reposiotry;
+package com.sw.todolist.reposiotry.list.memory;
 
 import com.sw.todolist.domain.TodoList;
+import com.sw.todolist.reposiotry.list.TodoListDto;
+import com.sw.todolist.reposiotry.list.TodoListRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Slf4j
-@Repository
-public class MemoryTodoListRepository implements TodoListRepository{
+public class MemoryTodoListRepository implements TodoListRepository {
 
     private static final Map<Long, TodoList> store = new HashMap<>();
     private static Long sequence = 0L;
@@ -26,7 +26,13 @@ public class MemoryTodoListRepository implements TodoListRepository{
     }
 
     @Override
-    public List<TodoList> readOfListAll() {
+    public List<TodoList> readOfListAll(String userId) {
+        ArrayList<TodoList> todoLists = new ArrayList<>(store.values());
+        todoLists.stream().forEach((o)-> {
+            if (!o.getUserId().equals(userId)) {
+                todoLists.remove(userId);
+            }
+        });
         return new ArrayList<>(store.values());
     }
 

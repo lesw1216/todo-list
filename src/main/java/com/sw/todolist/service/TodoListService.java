@@ -1,7 +1,7 @@
 package com.sw.todolist.service;
 
 import com.sw.todolist.domain.TodoList;
-import com.sw.todolist.reposiotry.TodoListDto;
+import com.sw.todolist.reposiotry.list.TodoListDto;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface TodoListService {
 
     void modifyOfList(Long listId, TodoListDto list);
 
-    List<TodoList> findByAll();
+    List<TodoList> findByAll(String userId);
 
     void deleteOfList(Long listId);
 }

@@ -1,6 +1,7 @@
-package com.sw.todolist.reposiotry;
+package com.sw.todolist.reposiotry.list;
 
 import com.sw.todolist.domain.TodoList;
+import com.sw.todolist.reposiotry.list.TodoListDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ public interface TodoListRepository {
 
     Optional<TodoList> read(Long listId);
 
-    List<TodoList> readOfListAll();
+    List<TodoList> readOfListAll(String userId);
 
     void update(Long listId, TodoListDto list);
 
