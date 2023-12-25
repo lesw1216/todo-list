@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String mainPage(Model model) {
+    public String mainPage() {
         return "redirect:/lists";
     }
 }

@@ -44,6 +44,7 @@ public class SimpleJdbcTemplateUserRepository implements UserRepository {
         user.setPassword(passwordEncoding(rawPassword));
 
         SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
+        log.info(parameterSource.toString());
         Number key = jdbcInsert.executeAndReturnKey(parameterSource);
 
         user.setId(key.longValue());

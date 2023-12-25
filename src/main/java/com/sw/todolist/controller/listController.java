@@ -1,6 +1,7 @@
 package com.sw.todolist.controller;
 
 import com.sw.todolist.domain.TodoList;
+import com.sw.todolist.domain.Users;
 import com.sw.todolist.reposiotry.list.TodoListDto;
 import com.sw.todolist.service.TodoListService;
 import com.sw.todolist.service.users.UsersService;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * POST - 할일 작성 후 저장 요청
@@ -29,11 +31,13 @@ import java.util.List;
 public class listController {
 
     private final TodoListService service;
+    private final UsersService usersService;
 
 
     @Autowired
-    public listController(TodoListService service) {
+    public listController(TodoListService service, UsersService usersService) {
         this.service = service;
+        this.usersService = usersService;
     }
 
 
@@ -45,9 +49,15 @@ public class listController {
         log.info("[GET][/lists]");
 
         String AuthenticationUserId = user.getUsername();
+        Optional<Users> loginUser = usersService.findByUserId(AuthenticationUserId);
+        String name = loginUser.get().getUserName();
+        log.info("이름:[{}]", name);
+
         // 전체 할일 목록을 꺼내와서 모델에 담아 준다.
         List<TodoList> lists = service.findByAll(AuthenticationUserId);
         model.addAttribute("lists", lists);
+
+        model.addAttribute("username", name);
         model.addAttribute("inputList", new TodoListDto(AuthenticationUserId, null, false));
 
         return "pages/mainPage";

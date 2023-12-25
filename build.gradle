@@ -35,8 +35,10 @@ dependencies {
 	testCompileOnly('org.projectlombok:lombok')
 	testAnnotationProcessor('org.projectlombok:lombok')
 
+	// mariadb 추가
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	// h2
-	runtimeOnly 'com.h2database:h2'
+//	runtimeOnly 'com.h2database:h2'
 
 	// thymeleaf with spring security
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
